@@ -117,7 +117,7 @@ class ViewController: UIViewController, GMSMapViewDelegate {
     }
     
     
-    func mapView(mapView: GMSMapView!, markerInfoContents marker: GMSMarker!) -> UIView! {
+    func mapView(mapView: GMSMapView!, markerInfoWindow marker: GMSMarker!) -> UIView! {
         
         let anchor = marker.position
         let point = mapView.projection.pointForCoordinate(anchor)
@@ -126,7 +126,7 @@ class ViewController: UIViewController, GMSMapViewDelegate {
         
         calloutView.calloutOffset = CGPointMake(0, -50.0)
         
-//        calloutView.hidden = false
+        calloutView.hidden = false
         
         var calloutRect = CGRectZero
         calloutRect.origin = point
@@ -137,8 +137,8 @@ class ViewController: UIViewController, GMSMapViewDelegate {
         return emptyCalloutView
     }
     
-    func mapView(mapView: GMSMapView!, idleAtCameraPosition position: GMSCameraPosition!) {
-        if mapView.selectedMarker != nil && calloutView.hidden {
+    func mapView(mapView: GMSMapView!, didChangeCameraPosition position: GMSCameraPosition!) {
+        if mapView.selectedMarker != nil && !calloutView.hidden {
             let anchor = mapView.selectedMarker.position
             let arrowPt = calloutView.backgroundView.arrowPoint
             
