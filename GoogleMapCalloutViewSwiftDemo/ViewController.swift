@@ -23,6 +23,7 @@ class ViewController: UIViewController, GMSMapViewDelegate {
         var button = UIButton.buttonWithType(.DetailDisclosure) as! UIButton
         button.addTarget(self, action: "calloutAccessoryButtonTapped", forControlEvents: .TouchUpInside)
         
+        self.calloutView.rightAccessoryView = button
         
         var cameraPosition = GMSCameraPosition.cameraWithLatitude(48.856132, longitude:2.339004, zoom: 12.0)
         
@@ -123,9 +124,9 @@ class ViewController: UIViewController, GMSMapViewDelegate {
         
         calloutView.title = marker.title
         
-        calloutView.calloutOffset = CGPointMake(0, -10.0)
+        calloutView.calloutOffset = CGPointMake(0, -50.0)
         
-        calloutView.hidden = false
+//        calloutView.hidden = false
         
         var calloutRect = CGRectZero
         calloutRect.origin = point
