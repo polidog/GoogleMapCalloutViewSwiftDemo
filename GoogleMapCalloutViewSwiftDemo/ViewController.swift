@@ -123,7 +123,7 @@ class ViewController: UIViewController, GMSMapViewDelegate {
         
         calloutView.title = marker.title
         
-        calloutView.calloutOffset = CGPointMake(0, 10.0)
+        calloutView.calloutOffset = CGPointMake(0, -10.0)
         
         calloutView.hidden = false
         
@@ -135,6 +135,22 @@ class ViewController: UIViewController, GMSMapViewDelegate {
         
         return emptyCalloutView
     }
+    
+    func mapView(mapView: GMSMapView!, idleAtCameraPosition position: GMSCameraPosition!) {
+        if mapView.selectedMarker != nil && calloutView.hidden {
+            let anchor = mapView.selectedMarker.position
+            let arrowPt = calloutView.backgroundView.arrowPoint
+            
+            var pt = mapView.projection.pointForCoordinate(anchor)
+            pt.x -= arrowPt.x
+            pt.y -= arrowPt.y + 50.0
+            
+            calloutView.frame = CGRect(origin: pt, size: calloutView.frame.size)
+        } else {
+            calloutView.hidden = true
+        }
+    }
+    
     
     func mapView(mapView: GMSMapView!, didTapAtCoordinate coordinate:CLLocationCoordinate2D) {
         self.calloutView.hidden = true
