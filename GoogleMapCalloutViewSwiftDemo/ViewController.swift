@@ -21,7 +21,7 @@ class ViewController: UIViewController, GMSMapViewDelegate {
         
         // infoWindow用のボタン
         var button = UIButton.buttonWithType(.DetailDisclosure) as! UIButton
-        button.addTarget(self, action: "calloutAccessoryButtonTapped", forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: "calloutAccessoryButtonTapped:", forControlEvents: .TouchUpInside)
         
         self.calloutView.rightAccessoryView = button
         
@@ -94,6 +94,7 @@ class ViewController: UIViewController, GMSMapViewDelegate {
             var marker = GMSMarker(position: position)
             
             marker.title = markerInfo["TitleKey"] as! String
+            
             marker.icon = pinImage
             marker.userData = markerInfo
             
@@ -108,11 +109,17 @@ class ViewController: UIViewController, GMSMapViewDelegate {
     
 
 
-    func calloutAccessoryButtonTapped(sender:UIButton) {
-        var marker = mapView.selectedMarker
+    func calloutAccessoryButtonTapped(sender: UIButton) {
+        println("click")
+        if mapView.selectedMarker != nil {
+            var marker = mapView.selectedMarker
+//            let info = marker.userData["infoKey"] as! String
+
+//            println(marker.userData["InfoKey"] as! String)
+            // ここはあとで書く
+            
+        }
         
-        println(marker.userData)
-        // ここはあとで書く
         
     }
     
