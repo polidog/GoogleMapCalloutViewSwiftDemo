@@ -8,18 +8,103 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-
+class ViewController: UIViewController, GMSMapViewDelegate {
+    
+    var calloutView:SMCalloutView!
+    var mapView:GMSMapView!
+    var emptyCalloutView:UIView!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        calloutView = SMCalloutView()
+        
+        // infoWindow用のボタン
+        var button = UIButton.buttonWithType(.DetailDisclosure) as! UIButton
+        button.addTarget(self, action: "calloutAccessoryButtonTapped", forControlEvents: .TouchUpInside)
+        
+        
+        var cameraPosition = GMSCameraPosition.cameraWithLatitude(48.856132, longitude:2.339004, zoom: 12.0)
+        
+        mapView = GMSMapView.mapWithFrame(self.view.bounds, camera: cameraPosition)
+
+        mapView.delegate = self
+        
+        self.view.addSubview(mapView)
+        
+        emptyCalloutView = UIView(frame:CGRectZero)
+        
+        addMarkersToMap()
     }
+    
+    
+    func addMarkersToMap() {
+        let markerInfos = [
+            [
+                "TitleKey": "Eiffel Tower",
+                "InfoKey": "A wrought-iron structure erected in Paris in 1889. With a height of 984 feet (300 m), it was the tallest man-made structure for many years.",
+                "LatitudeKey": 48.8584,
+                "LongitudeKey": 2.2946
+            ],
+            [
+                "TitleKey": "Centre Georges Pompidou",
+                "InfoKey": "Centre Georges Pompidou is a complex in the Beaubourg area of the 4th arrondissement of Paris. It was designed in the style of high-tech architecture.",
+                "LatitudeKey": 48.8607,
+                "LongitudeKey": 2.3524
+        
+            ],
+            [
+                "TitleKey": "The Louvre",
+                "InfoKey": "The principal museum and art gallery of France, in Paris.",
+                "LatitudeKey": 48.8609,
+                "LongitudeKey": 2.3363
+            ],
+            [
+                "TitleKey": "Arc de Triomphe",
+                "InfoKey": "A ceremonial arch standing at the top of the Champs Élysées in Paris.",
+                "LatitudeKey": 48.8738,
+                "LongitudeKey": 2.2950
+            ],
+            [
+                "TitleKey": "Notre Dame",
+                "InfoKey": "A Gothic cathedral in Paris, dedicated to the Virgin Mary, built between 1163 and 1250.",
+                "LatitudeKey": 48.8530,
+                "LongitudeKey": 2.3498
+        
+            ]
+        ]
+        
+        let pinImage = UIImage(named: "Pin")
+        
+        for markerInfo in markerInfos {
+            var lat = markerInfo["LatitudeKey"] as! CLLocationDegrees
+            var lng = markerInfo["LongitudeKey"] as! CLLocationDegrees
+            
+            var position = CLLocationCoordinate2DMake(lat,lng)
+            var marker = GMSMarker(position: position)
+            
+            marker.title = markerInfo["TitleKey"] as! String
+            marker.icon = pinImage
+            marker.userData = markerInfo
+            
+            marker.infoWindowAnchor = CGPointMake(0.5, 0.25);
+            marker.groundAnchor = CGPointMake(0.5, 1.0)
+            
+            marker.map = self.mapView
+            
+        }
+        
+    }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
+    func calloutAccessoryButtonTapped(sender:UIButton) {
+        
+    }
 
 }
 

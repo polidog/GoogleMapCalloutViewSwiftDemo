@@ -1,0 +1,13 @@
+PODS:
+  - Google-Maps-iOS-SDK (1.8.1)
+  - SMCalloutView (2.1.2)
+
+DEPENDENCIES:
+  - Google-Maps-iOS-SDK (~> 1.8.1)
+  - SMCalloutView (~> 2.0)
+
+SPEC CHECKSUMS:
+  Google-Maps-iOS-SDK: ac676d383fccd332bcb0abb24e483891b5956bb4
+  SMCalloutView: 4078d89b847731e514b1a919fed33b383a24a106
+
+COCOAPODS: 0.37.2
