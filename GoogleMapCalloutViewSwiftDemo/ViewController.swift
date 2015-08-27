@@ -30,12 +30,21 @@ class ViewController: UIViewController, GMSMapViewDelegate {
 
         mapView.delegate = self
         
+        self.mapView.autoresizingMask = UIViewAutoresizing.FlexibleWidth|UIViewAutoresizing.FlexibleHeight
+        
+        
         self.view.addSubview(mapView)
         
         emptyCalloutView = UIView(frame:CGRectZero)
         
         addMarkersToMap()
     }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
     
     
     func addMarkersToMap() {
@@ -97,13 +106,43 @@ class ViewController: UIViewController, GMSMapViewDelegate {
     }
     
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
 
     func calloutAccessoryButtonTapped(sender:UIButton) {
+        var marker = mapView.selectedMarker
         
+        println(marker.userData)
+        // ここはあとで書く
+        
+    }
+    
+    
+    func mapView(mapView: GMSMapView!, markerInfoContents marker: GMSMarker!) -> UIView! {
+        
+        let anchor = marker.position
+        let point = mapView.projection.pointForCoordinate(anchor)
+        
+        calloutView.title = marker.title
+        
+        calloutView.calloutOffset = CGPointMake(0, 10.0)
+        
+        calloutView.hidden = false
+        
+        var calloutRect = CGRectZero
+        calloutRect.origin = point
+        calloutRect.size = CGSizeZero
+        
+        calloutView.presentCalloutFromRect(calloutRect, inView: mapView, constrainedToView: mapView, animated: true)
+        
+        return emptyCalloutView
+    }
+    
+    func mapView(mapView: GMSMapView!, didTapAtCoordinate coordinate:CLLocationCoordinate2D) {
+        self.calloutView.hidden = true
+    }
+    
+    func mapView(mapView: GMSMapView!, didTapMarker marker: GMSMarker!) -> Bool {
+        mapView.selectedMarker = marker
+        return true
     }
 
 }
